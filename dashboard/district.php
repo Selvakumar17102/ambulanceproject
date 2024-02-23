@@ -1,44 +1,39 @@
 <?php
     ini_set('display_errors','on');
     include('include/connection.php');
-    $blood = 'active';
-    $bloodBoolean = 'true';
-    $bloodShow = 'show';
-	$bloodlist = 'active';
+    $location = 'active';
+    $locationBoolean = 'true';
+    $locationShow = 'show';
+	$district = 'active';
 
     if(isset($_POST['add'])){
-        $bloodname = $_POST['bloodname'];
-        if($bloodname){
-            $insertSql = "INSERT INTO bloodlist (blood_name) VALUES('$bloodname')";
+        $stateid = $_POST['stateid'];
+        $districtname = $_POST['districtname'];
+        if($districtname){
+            $insertSql = "INSERT INTO district (state_id,district_name) VALUES('$stateid','$districtname')";
             if($conn->query($insertSql) === TRUE){
-                header('Location: bloodlist.php?msg=Blood Group Added !');
+                header('Location: district.php?msg=district Added !');
             }
         }else{
-            header('Location: bloodlist.php?msg=Please Enter Blood Group !');
+            header('Location: district.php?msg=Please Enter district !');
         }
     }
 
     if(isset($_POST['edit'])){
-        $blood_id = $_POST['blood_id'];
-        $editbloodname = $_POST['editbloodname'];
+        $district_id = $_POST['district_id'];
+        $editstateid = $_POST['editstateid'];
+        $editdistrictname = $_POST['editdistrictname'];
 
-        if($editbloodname){
-            $updatesql = "UPDATE bloodlist SET blood_name = '$editbloodname' WHERE blood_id ='$blood_id'";
+        if($editdistrictname){
+            $updatesql = "UPDATE district SET state_id = '$editstateid',district_name='$editdistrictname' WHERE did ='$district_id'";
             if($conn->query($updatesql)===TRUE){
-                header('Location: bloodlist.php?msg=Blood group updated!');
+                header('Location: district.php?msg=district updated!');
             }
         }else{
-            header('Location: bloodlist.php?msg=Please Enter Blood Group !');
+            header('Location: district.php?msg=Please Enter district !');
         }
     }
 
-    // if(isset($_POST['delete'])){
-    //     $blood_id = $_POST['blood_id'];
-    //     $sql = "DELETE FROM bloodlist WHERE blood_id='$blood_id'";
-    //     if($conn->query($sql) === TRUE){
-    //         header('Location: bloodlist.php?msg=Blood group deleted!');
-    //     }
-    // }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -46,7 +41,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
-    <title>All Blood | Instant Ambulance</title>
+    <title>District | Instant Ambulance</title>
     <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico"/>
     <link href="assets/css/loader.css" rel="stylesheet" type="text/css" />
     <script src="assets/js/loader.js"></script>
@@ -91,7 +86,7 @@
                             <div class="widget-header">
                                 <div class="row">
                                     <div class="col-sm-9">
-                                        <h4>All Blood</h4>
+                                        <h4>All District</h4>
                                     </div>
                                     <div class="col-sm-3">
                                         <button type="button" class="btn btn-outline-secondary float-right m-3" data-toggle="modal" data-target="#exampleModal">
@@ -99,20 +94,41 @@
                                             Add New
                                         </button>
                                         <div class="modal fade show" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="padding-right: 17px; display: none;" aria-modal="true">
-                                            <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+                                            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                                 <div class="modal-content">
                                                     <form method="post" enctype="multipart/form-data">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="addAdminTitle">Add Blood Group</h5>
+                                                            <h5 class="modal-title" id="addAdminTitle">Add District</h5>
                                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                 <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                                                             </button>
                                                         </div>
                                                         <div class="modal-body">
                                                             <div class="row">
-                                                                <div class="col-sm-12">
-                                                                    <label>Blood Name</label>
-																	<input type="text" name="bloodname" id="bloodname" class="form-control" placeholder="Blood Name">
+                                                                <div class="col-sm-4">
+                                                                    <label>state Name</label>
+                                                                    <select name="countryid" id="countryid" class="form-control" required onchange="country(this)">
+                                                                        <option seleted>Please Select country</option>
+                                                                        <?php
+                                                                        $countrysql = "SELECT * FROM country";
+                                                                        $countryResult = $conn->query($countrysql);
+                                                                        while($cRow = $countryResult->fetch_assoc()){
+                                                                            ?>
+                                                                            <option value="<?php echo $cRow['cid']?>"><?php echo $cRow['country_name']?></option>
+                                                                            <?php
+                                                                        }
+                                                                        ?>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-sm-4">
+                                                                    <label>state Name</label>
+                                                                    <select name="stateid" id="stateid" class="form-control" required>
+                                                                        <option seleted>Please Select State</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-sm-4">
+                                                                    <label>District Name</label>
+																	<input type="text" name="districtname" id="districtname" class="form-control" placeholder="District name" required>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -133,22 +149,26 @@
                                         <thead>
                                             <tr>
                                                 <th class="text-center">#</th>
-                                                <th class="text-center">Blood Name</th>
+                                                <th class="text-center">country Name</th>
+                                                <th class="text-center">state Name</th>
+                                                <th class="text-center">District Name</th>
                                                 <th class="text-center">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php
-                                                $sql = "SELECT * FROM bloodlist";
+                                                $sql = "SELECT * FROM district a LEFT OUTER JOIN state b ON a.state_id=b.sid LEFT OUTER JOIN country c ON b.country_id=c.cid";
                                                 $result = $conn->query($sql);
                                                 $count = 0;
                                                 while($row = $result->fetch_assoc())
                                                 {
-                                                    $blood_id = $row['blood_id'];
+                                                    $did = $row['did'];
                                             ?>
                                                 <tr>
                                                     <td class="text-center"><?php echo ++$count ?></td>
-                                                    <td class="text-center"><b><?php echo $row['blood_name'] ?></b></td>
+                                                    <td class="text-center"><b><?php echo $row['country_name'] ?></b></td>
+                                                    <td class="text-center"><b><?php echo $row['state_name'] ?></b></td>
+                                                    <td class="text-center"><b><?php echo $row['district_name'] ?></b></td>
                                                     <td class="text-center">
                                                         <ul class="table-controls">
                                                             <li>
@@ -156,24 +176,38 @@
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-3"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
                                                                 </a>
                                                                 <div class="modal fade" id="edit<?php echo $count ?>" tabindex="-1" role="dialog" aria-labelledby="addAdminTitle<?php echo $count ?>" style="display: none;" aria-hidden="true">
-                                                                    <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+                                                                    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                                                         <div class="modal-content">
                                                                             <form method="post" enctype="multipart/form-data">
                                                                                 <div class="modal-header">
-                                                                                    <h5 class="modal-title" id="addAdminTitle<?php echo $count ?>">Edit blood group</h5>
+                                                                                    <h5 class="modal-title" id="addAdminTitle<?php echo $count ?>">Edit District</h5>
                                                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                                         <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                                                                                     </button>
                                                                                 </div>
                                                                                 <div class="modal-body">
                                                                                     <div class="row">
-                                                                                        <div class="col-sm-12">
-                                                                                            <label>Blood Name</label>
-                                                                                            <input type="text" name="editbloodname" id="editbloodname<?php echo $count ?>" class="form-control" placeholder="Blood Name" value="<?php echo $row['blood_name'] ?>">
+                                                                                        <div class="col-sm-6">
+                                                                                            <label>state Name</label>
+                                                                                            <select name="editstateid" id="editstateid<?php echo $count ?>" class="form-control">
+                                                                                            <?php
+                                                                                            $checkSql = "SELECT * FROM state";
+                                                                                            $checkResult = $conn->query($checkSql);
+                                                                                            while($checkRow = $checkResult->fetch_assoc()){
+                                                                                                ?>
+                                                                                                <option value="<?php echo $checkRow['sid'];?>"<?php if($checkRow['sid'] == $row['state_id']){ echo "selected"; }?>><?php echo $checkRow['state_name'];?></option>
+                                                                                                <?php
+                                                                                            }
+                                                                                            ?>
+                                                                                            </select>
+                                                                                        </div>
+                                                                                        <div class="col-sm-6">
+                                                                                            <label>District Name</label>
+                                                                                            <input type="text" name="editdistrictname" id="editdistrictname<?php echo $count ?>" class="form-control" placeholder="District name" value="<?php echo $row['district_name'] ?>">
                                                                                         </div>
                                                                                         
                                                                                     </div>
-                                                                                    <input type="hidden" name="blood_id" value="<?php echo $blood_id ?>">
+                                                                                    <input type="hidden" name="district_id" value="<?php echo $did ?>">
                                                                                 </div>
                                                                                 <div class="modal-footer">
                                                                                     <button class="btn" data-dismiss="modal"><i class="flaticon-cancel-12"></i> Discard</button>
@@ -184,33 +218,6 @@
                                                                     </div>
                                                                 </div>
                                                             </li>
-                                                            <!-- <li>
-                                                                <a data-toggle="modal" data-target="#deleteAdmin<?php echo $count ?>">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-circle text-danger"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
-                                                                </a>
-                                                                <div class="modal fade" id="deleteAdmin<?php echo $count ?>" tabindex="-1" role="dialog" aria-labelledby="addAdminTitle" style="display: none;" aria-hidden="true">
-                                                                    <div class="modal-dialog modal-dialog-centered" role="document">
-                                                                        <div class="modal-content">
-                                                                            <form method="post">
-                                                                                <div class="modal-header">
-                                                                                    <h5 class="modal-title" id="addAdminTitle">Delete Banner</h5>
-                                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                                                                                    </button>
-                                                                                </div>
-                                                                                <div class="modal-body">
-                                                                                    <p class="modal-text">Are you sure to delete this banner!</p>
-                                                                                    <input type="hidden" name="blood_id" value="<?php echo $blood_id ?>">
-                                                                                </div>
-                                                                                <div class="modal-footer">
-                                                                                    <button class="btn" data-dismiss="modal"> No</button>
-                                                                                    <button type="submit" name="delete" class="btn btn-danger">Delete</button>
-                                                                                </div>
-                                                                            </form>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </li> -->
                                                         </ul>
                                                     </td>
                                                 </tr>
@@ -247,3 +254,16 @@
     <script src="plugins/notification/snackbar/snackbar.min.js"></script>
 </body>
 </html>
+<script>
+    function country(id){
+        var countryid = id.value;
+        $.ajax({
+            type: "POST",
+            url: "ajax/statefind.php",
+            data:{'id':countryid},
+            success: function(data){
+                document.getElementById("stateid").innerHTML = data;
+            }
+        });
+    }
+</script>

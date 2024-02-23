@@ -4,41 +4,8 @@
     $blood = 'active';
     $bloodBoolean = 'true';
     $bloodShow = 'show';
-	$bloodlist = 'active';
+	$blooddonation = 'active';
 
-    if(isset($_POST['add'])){
-        $bloodname = $_POST['bloodname'];
-        if($bloodname){
-            $insertSql = "INSERT INTO bloodlist (blood_name) VALUES('$bloodname')";
-            if($conn->query($insertSql) === TRUE){
-                header('Location: bloodlist.php?msg=Blood Group Added !');
-            }
-        }else{
-            header('Location: bloodlist.php?msg=Please Enter Blood Group !');
-        }
-    }
-
-    if(isset($_POST['edit'])){
-        $blood_id = $_POST['blood_id'];
-        $editbloodname = $_POST['editbloodname'];
-
-        if($editbloodname){
-            $updatesql = "UPDATE bloodlist SET blood_name = '$editbloodname' WHERE blood_id ='$blood_id'";
-            if($conn->query($updatesql)===TRUE){
-                header('Location: bloodlist.php?msg=Blood group updated!');
-            }
-        }else{
-            header('Location: bloodlist.php?msg=Please Enter Blood Group !');
-        }
-    }
-
-    // if(isset($_POST['delete'])){
-    //     $blood_id = $_POST['blood_id'];
-    //     $sql = "DELETE FROM bloodlist WHERE blood_id='$blood_id'";
-    //     if($conn->query($sql) === TRUE){
-    //         header('Location: bloodlist.php?msg=Blood group deleted!');
-    //     }
-    // }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -46,7 +13,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
-    <title>All Blood | Instant Ambulance</title>
+    <title>Blood Donor | Instant Ambulance</title>
     <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico"/>
     <link href="assets/css/loader.css" rel="stylesheet" type="text/css" />
     <script src="assets/js/loader.js"></script>
@@ -91,9 +58,9 @@
                             <div class="widget-header">
                                 <div class="row">
                                     <div class="col-sm-9">
-                                        <h4>All Blood</h4>
+                                        <h4>Blood Donor List</h4>
                                     </div>
-                                    <div class="col-sm-3">
+                                    <!-- <div class="col-sm-3">
                                         <button type="button" class="btn btn-outline-secondary float-right m-3" data-toggle="modal" data-target="#exampleModal">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                                             Add New
@@ -124,7 +91,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                             <div class="widget-content widget-content-area">
@@ -133,7 +100,7 @@
                                         <thead>
                                             <tr>
                                                 <th class="text-center">#</th>
-                                                <th class="text-center">Blood Name</th>
+                                                <th class="text-center">Blood Donor Name</th>
                                                 <th class="text-center">Action</th>
                                             </tr>
                                         </thead>
