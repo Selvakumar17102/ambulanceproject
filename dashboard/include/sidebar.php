@@ -59,7 +59,7 @@
                         ?>
                         <a href="#location" data-toggle="collapse" aria-expanded="<?php echo $locationBoolean ?>" class="dropdown-toggle">
                             <div class="">
-                                <img style="width: 30px;padding-right: 5px;" src="assets/img/icon/blood.png" alt="">
+                                <img style="width: 30px;padding-right: 5px;" src="assets/img/icon/branch.png" alt="">
                                 <span>Location</span>
                             </div>
                             <div>
@@ -75,12 +75,6 @@
                             </li>
                             <li class="<?php echo $district ?>">
                                 <a href="district.php">district</a>
-                            </li>
-                            <li class="<?php echo $city ?>">
-                                <a href="city.php">city</a>
-                            </li>
-                            <li class="<?php echo $taluk ?>">
-                                <a href="taluk.php">taluk</a>
                             </li>
                         </ul>
                     </li>

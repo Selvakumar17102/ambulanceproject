@@ -10,8 +10,8 @@
 		$check = 0;
 
 		$date = date('Y-m-d');
-		$randomid = mt_rand(1000,9999);
-
+		// $randomid = mt_rand(1000,9999);
+		$randomid = "1234";
 		if($phone == "+911234567890"){
 			$randomid = 1234;
 		}
