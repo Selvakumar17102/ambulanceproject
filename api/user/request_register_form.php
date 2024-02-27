@@ -15,59 +15,30 @@
 
 			header('authorization: ' . $responceToken);
 
-            $sql = "SELECT * FROM user WHERE user_id='$user_id'";
-            $result = $conn->query($sql);
-            if($result->num_rows > 0){
-                $row = $result->fetch_assoc();
-                $user_phone = $row['user_phone_number'];
-            }
                 
-			    // if(!empty($data->blood_donor_name) && !empty($data->blood_group)){
-                //     $blood_donor_status = $data->blood_donor_status;
-                //     $blood_donor_name = $data->blood_donor_name;
-                //     $blood_donor_age = $data->blood_donor_age;
-                //     $blood_donor_dob = $data->blood_donor_dob;
-                //     $blood_donor_gender = $data->blood_donor_gender;
-                //     $donor_phone_no = $user_phone;
-                //     $donor_district_id = $data->donor_district_id;
-                //     $donor_address = $data->donor_address;
-                //     $donor_latitude = $data->donor_latitude;
-                //     $donor_longitude = $data->donor_longitude;
-                //     $blood_group = $data->blood_group;
-                //     $donor_height = $data->donor_height;
-                //     $donor_weight = $data->donor_weight;
-                //     $ever_donate_blood_before = $data->ever_donate_blood_before;
-                //     $last_time_donated_date = $data->last_time_donated_date;
-                //     $any_diseases_status = $data->any_diseases_status;
-                //     $diseases_command = $data->diseases_command;
-                //     $any_allergies_status = $data->any_allergies_status;
-                //     $allergies_command = $data->allergies_command;
-                //     $any_medication_status = $data->any_medication_status;
-                //     $medication_command = $data->medication_command;
-                //     $in_bitween_days = $data->in_bitween_days;
-                    
-                //     $checkSql = "SELECT * FROM blood_donation WHERE user_id='$user_id' AND donor_phone_no='$user_phone'";
-                //     $checkResult = $conn->query($checkSql);
-                //     if($checkResult->num_rows == NULL){
+			    if(!empty($data->patient_name) && !empty($data->blood_group) && !empty($data->unit)){
+                    $patient_name = $data->patient_name;
+                    $blood_group = $data->blood_group;
+                    $request_date = $data->request_date;
+                    $unit = $data->unit;
+                    $alter_phone_no = $data->alter_phone_no;
+                    $location = $data->location;
+                    $emergency_status = $data->emergency_status;
+                    $additional_notes = $data->additional_notes;
+                    $check_terms = $data->check_terms;
 
-                //         $sql = "INSERT INTO blood_donation (user_id,blood_donor_status,blood_donor_name,blood_donor_age,blood_donor_dob,blood_donor_gender,donor_phone_no,donor_district_id,donor_address,donor_latitude,donor_longitude,blood_group,donor_height,donor_weight,ever_donate_blood_before,last_time_donated_date,any_diseases_status,diseases_command,any_allergies_status,allergies_command,take_any_medication,medication_command,in_bitween_days) VALUES ('$user_id','$blood_donor_status','$blood_donor_name','$blood_donor_age','$blood_donor_dob','$blood_donor_gender','$donor_phone_no','$donor_district_id','$donor_address','$donor_latitude','$donor_longitude','$blood_group','$donor_height','$donor_weight','$ever_donate_blood_before','$last_time_donated_date','$any_diseases_status','$diseases_command','$any_allergies_status','$allergies_command','$any_medication_status','$medication_command','$in_bitween_days')";
-                //         if($conn->query($sql) === TRUE){
-                //             http_response_code(200);
-                //             $output_array['status'] = true;
-                //             $output_array['message'] = "Register Successfully!";
-                //         }
-
-                //     }else{
-                //         http_response_code(404);
-                //         $output_array['status'] = false;
-                //         $output_array['message'] = "User Already Exist";
-                //     }
+                    $sql = "INSERT INTO blood_request (user_id,patient_name,blood_group,request_date,unit,alter_phone_no,hospital_location,emergency_status,additional_notes,check_terms) VALUES ('$user_id','$patient_name','$blood_group','$request_date','$unit','$alter_phone_no','$location','$emergency_status','$additional_notes','$check_terms')";
+                    if($conn->query($sql) === TRUE){
+                        http_response_code(200);
+                        $output_array['status'] = true;
+                        $output_array['message'] = "Register Successfully!";
+                    }
                     
-			    // } else{
-			    // 	http_response_code(400);
-			    // 	$output_array['status'] = false;
-			    // 	$output_array['message'] = "Bad request";
-			    // }
+			    } else{
+			    	http_response_code(400);
+			    	$output_array['status'] = false;
+			    	$output_array['message'] = "Bad request";
+			    }
 		} else{
 			http_response_code(401);
 			$output_array['status'] = false;

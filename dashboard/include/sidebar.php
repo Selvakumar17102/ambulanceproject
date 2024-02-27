@@ -100,6 +100,9 @@
                             <li class="<?php echo $blooddonation ?>">
                                 <a href="blooddonation.php">Blood Donation</a>
                             </li>
+                            <li class="<?php echo $bloodrequest ?>">
+                                <a href="bloodrequest.php">Blood Request</a>
+                            </li>
                         </ul>
                     </li>
                     <li class="menu <?php echo $menu ?>">

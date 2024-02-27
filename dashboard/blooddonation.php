@@ -100,86 +100,71 @@
                                         <thead>
                                             <tr>
                                                 <th class="text-center">#</th>
-                                                <th class="text-center">Blood Donor Name</th>
-                                                <th class="text-center">Action</th>
+                                                <th class="text-center">Donor Name</th>
+                                                <th class="text-center">Blood Gruop</th>
+                                                <th class="text-center">Age</th>
+                                                <th class="text-center">DOB</th>
+                                                <th class="text-center">Gender</th>
+                                                <th class="text-center">Phone No</th>
+                                                <th class="text-center">Alter Phone No</th>
+                                                <th class="text-center">Address</th>
+                                                <th class="text-center">Height</th>
+                                                <th class="text-center">Weight</th>
+                                                <th class="text-center">Ever donate blood before</th>
+                                                <th class="text-center">Any diseases status</th>
+                                                <th class="text-center">Any allergies status</th>
+                                                <th class="text-center">Take any medication</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php
-                                                $sql = "SELECT * FROM bloodlist";
+                                                $sql = "SELECT *,a.blood_group as donorbloodgroup FROM blood_donation a LEFT OUTER JOIN user b ON a.user_id=b.user_id";
                                                 $result = $conn->query($sql);
                                                 $count = 0;
                                                 while($row = $result->fetch_assoc())
                                                 {
-                                                    $blood_id = $row['blood_id'];
+                                                    $blood_id = $row['blood_donation_id '];
+
+                                                    if($row['ever_donate_blood_before'] == 1){
+                                                        $beforeStatus = '<span class="badge outline-badge-success">YES</span>';
+                                                    } else{
+                                                        $beforeStatus = '<span class="badge outline-badge-danger">NO</span>';
+                                                    }
+
+                                                    if($row['any_diseases_status'] == 1){
+                                                        $diseasesStatus = '<span class="badge outline-badge-success">YES</span>';
+                                                    } else{
+                                                        $diseasesStatus = '<span class="badge outline-badge-danger">NO</span>';
+                                                    }
+
+                                                    if($row['any_allergies_status'] == 1){
+                                                        $allergiesStatus = '<span class="badge outline-badge-success">YES</span>';
+                                                    } else{
+                                                        $allergiesStatus = '<span class="badge outline-badge-danger">NO</span>';
+                                                    }
+
+                                                    if($row['take_any_medication'] == 1){
+                                                        $medicationStatus = '<span class="badge outline-badge-success">YES</span>';
+                                                    } else{
+                                                        $medicationStatus = '<span class="badge outline-badge-danger">NO</span>';
+                                                    }
                                             ?>
                                                 <tr>
                                                     <td class="text-center"><?php echo ++$count ?></td>
-                                                    <td class="text-center"><b><?php echo $row['blood_name'] ?></b></td>
-                                                    <td class="text-center">
-                                                        <ul class="table-controls">
-                                                            <li>
-                                                                <a data-toggle="modal" data-target="#edit<?php echo $count ?>">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-3"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
-                                                                </a>
-                                                                <div class="modal fade" id="edit<?php echo $count ?>" tabindex="-1" role="dialog" aria-labelledby="addAdminTitle<?php echo $count ?>" style="display: none;" aria-hidden="true">
-                                                                    <div class="modal-dialog modal-dialog-centered modal-md" role="document">
-                                                                        <div class="modal-content">
-                                                                            <form method="post" enctype="multipart/form-data">
-                                                                                <div class="modal-header">
-                                                                                    <h5 class="modal-title" id="addAdminTitle<?php echo $count ?>">Edit blood group</h5>
-                                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                                                                                    </button>
-                                                                                </div>
-                                                                                <div class="modal-body">
-                                                                                    <div class="row">
-                                                                                        <div class="col-sm-12">
-                                                                                            <label>Blood Name</label>
-                                                                                            <input type="text" name="editbloodname" id="editbloodname<?php echo $count ?>" class="form-control" placeholder="Blood Name" value="<?php echo $row['blood_name'] ?>">
-                                                                                        </div>
-                                                                                        
-                                                                                    </div>
-                                                                                    <input type="hidden" name="blood_id" value="<?php echo $blood_id ?>">
-                                                                                </div>
-                                                                                <div class="modal-footer">
-                                                                                    <button class="btn" data-dismiss="modal"><i class="flaticon-cancel-12"></i> Discard</button>
-                                                                                    <button type="submit" name="edit" class="btn btn-primary">Save</button>
-                                                                                </div>
-                                                                            </form>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </li>
-                                                            <!-- <li>
-                                                                <a data-toggle="modal" data-target="#deleteAdmin<?php echo $count ?>">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-circle text-danger"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
-                                                                </a>
-                                                                <div class="modal fade" id="deleteAdmin<?php echo $count ?>" tabindex="-1" role="dialog" aria-labelledby="addAdminTitle" style="display: none;" aria-hidden="true">
-                                                                    <div class="modal-dialog modal-dialog-centered" role="document">
-                                                                        <div class="modal-content">
-                                                                            <form method="post">
-                                                                                <div class="modal-header">
-                                                                                    <h5 class="modal-title" id="addAdminTitle">Delete Banner</h5>
-                                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                                                                                    </button>
-                                                                                </div>
-                                                                                <div class="modal-body">
-                                                                                    <p class="modal-text">Are you sure to delete this banner!</p>
-                                                                                    <input type="hidden" name="blood_id" value="<?php echo $blood_id ?>">
-                                                                                </div>
-                                                                                <div class="modal-footer">
-                                                                                    <button class="btn" data-dismiss="modal"> No</button>
-                                                                                    <button type="submit" name="delete" class="btn btn-danger">Delete</button>
-                                                                                </div>
-                                                                            </form>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </li> -->
-                                                        </ul>
-                                                    </td>
+                                                    <td class="text-center"><?php echo $row['blood_donor_name'] ?></td>
+                                                    <td class="text-center"><b><?php echo $row['donorbloodgroup'] ?></b></td>
+                                                    <td class="text-center"><?php echo $row['blood_donor_age'] ?></td>
+                                                    <td class="text-center"><?php echo $row['blood_donor_dob'] ?></td>
+                                                    <td class="text-center"><?php echo $row['blood_donor_gender'] ?></td>
+                                                    <td class="text-center"><?php echo $row['user_phone_number'] ?></td>
+                                                    <td class="text-center"><?php echo $row['donor_alter_phone_no'] ?></td>
+                                                    <td class="text-center"><?php echo $row['donor_address'] ?></td>
+                                                    <td class="text-center"><?php echo $row['donor_height'] ?></td>
+                                                    <td class="text-center"><?php echo $row['donor_weight'] ?></td>
+                                                    <td class="text-center"><?php echo $beforeStatus ?></td>
+                                                    <td class="text-center"><?php echo $diseasesStatus ?></td>
+                                                    <td class="text-center"><?php echo $allergiesStatus ?></td>
+                                                    <td class="text-center"><?php echo $medicationStatus ?></td>
                                                 </tr>
                                             <?php
                                                 }
