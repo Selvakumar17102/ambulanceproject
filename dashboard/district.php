@@ -106,7 +106,7 @@
                                                         <div class="modal-body">
                                                             <div class="row">
                                                                 <div class="col-sm-4">
-                                                                    <label>state Name</label>
+                                                                    <label>country Name</label>
                                                                     <select name="countryid" id="countryid" class="form-control" required onchange="country(this)">
                                                                         <option seleted>Please Select country</option>
                                                                         <?php

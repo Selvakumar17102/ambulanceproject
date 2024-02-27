@@ -76,6 +76,9 @@
                             <li class="<?php echo $district ?>">
                                 <a href="district.php">district</a>
                             </li>
+                            <li class="<?php echo $city ?>">
+                                <a href="city.php">city</a>
+                            </li>
                         </ul>
                     </li>
                     <li class="menu <?php echo $blood ?>">
@@ -94,6 +97,9 @@
                             </div>
                         </a>
                         <ul class="collapse submenu list-unstyled <?php echo $bloodShow ?>" id="blood" data-parent="#accordionExample">
+                            <li class="<?php echo $bloodbanner ?>">
+                                <a href="bloodbanner.php"> Blood Banner </a>
+                            </li>
                             <li class="<?php echo $bloodlist ?>">
                                 <a href="bloodlist.php"> Blood List </a>
                             </li>

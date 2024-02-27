@@ -1,39 +1,73 @@
 <?php
     ini_set('display_errors','on');
     include('include/connection.php');
-    $location = 'active';
-    $locationBoolean = 'true';
-    $locationShow = 'show';
-	$city = 'active';
+    $blood = 'active';
+    $bloodBoolean = 'true';
+    $bloodShow = 'show';
+	$bloodbanner = 'active';
 
     if(isset($_POST['add'])){
-        $districtid = $_POST['districtid'];
-        $cityname = $_POST['cityname'];
-        if($cityname){
-            $insertSql = "INSERT INTO city (district_id,city_name) VALUES('$districtid','$cityname')";
-            if($conn->query($insertSql) === TRUE){
-                header('Location: city.php?msg=city Added !');
+        $image = $_FILES['image']['name'];
+           
+        if($image){
+            $type=pathinfo($_FILES['image']['name'],PATHINFO_EXTENSION);
+            $randomid = mt_rand(100,99999);
+            $path="Images/bloodbanner/$randomid$banner_id.$type";
+            $allowTypes=array('jpg','JPG','png','PNG','jpeg','JPEG','gif','GIF');
+            if(in_array($type, $allowTypes)){
+                if(move_uploaded_file($_FILES["image"]["tmp_name"], $path)){
+                    $sql2 = "INSERT INTO blood_banner (blood_banner_image) VALUES ('$path')";
+                    $conn->query($sql2);
+                    header('Location: bloodbanner.php?msg=banner added!');
+                } 
             }
-        }else{
-            header('Location: city.php?msg=Please Enter city !');
         }
+        header('Location: bloodbanner.php?msg=Banner added!');
     }
 
     if(isset($_POST['edit'])){
-        $city_id = $_POST['city_id'];
-        $editdistrictid = $_POST['editdistrictid'];
-        $editcityname = $_POST['editcityname'];
+        $banner_id = $_POST['banner_id'];
+        $image = $_FILES['image']['name'];
 
-        if($editcityname){
-            $updatesql = "UPDATE city SET district_id = '$editdistrictid',city_name='$editcityname' WHERE city_id ='$city_id'";
-            if($conn->query($updatesql)===TRUE){
-                header('Location: city.php?msg=city updated!');
+        if($image){
+            $sql = "SELECT * FROM blood_banner WHERE id='$banner_id'";
+            $result = $conn->query($sql);
+            $row = $result->fetch_assoc();
+
+            $banner_imageS = '';
+            if(is_file($row['blood_banner_image'])){ $banner_imageS = $row['blood_banner_image']; }
+
+            $type=pathinfo($_FILES['image']['name'],PATHINFO_EXTENSION);
+            $randomid = mt_rand(100,999999);
+            $path="Images/bloodbanner/$randomid$banner_id.$type";
+            $allowTypes=array('jpg','JPG','png','PNG','jpeg','JPEG','gif','GIF');
+            if(in_array($type, $allowTypes)){
+                if(move_uploaded_file($_FILES["image"]["tmp_name"], $path)){
+                    $sql2 = "UPDATE blood_banner SET blood_banner_image = '$path' WHERE id='$banner_id'";
+                    $conn->query($sql2);
+                    unlink($banner_imageS);
+                    header('Location: bloodbanner.php?msg=banner added!');
+                } 
             }
-        }else{
-            header('Location: city.php?msg=Please Enter city !');
         }
+        header('Location: bloodbanner.php?msg=Banner updated!');
     }
 
+    if(isset($_POST['delete'])){
+        $banner_id = $_POST['banner_id'];
+
+        $sql = "SELECT * FROM blood_banner WHERE id='$banner_id'";
+        $result = $conn->query($sql);
+        $row = $result->fetch_assoc();
+        
+        if(is_file($row['blood_banner_image'])){$banner_imageS = $row['blood_banner_image'];$banner_imageS=''; }
+
+        $sql = "DELETE FROM blood_banner WHERE id='$banner_id'";
+        if($conn->query($sql) === TRUE){
+            unlink($banner_imageS);
+            header('Location: bloodbanner.php?msg=Banner deleted!');
+        }
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -41,7 +75,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
-    <title>city | Instant Ambulance</title>
+    <title>App Banners | Instant Ambulance</title>
     <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico"/>
     <link href="assets/css/loader.css" rel="stylesheet" type="text/css" />
     <script src="assets/js/loader.js"></script>
@@ -86,7 +120,7 @@
                             <div class="widget-header">
                                 <div class="row">
                                     <div class="col-sm-9">
-                                        <h4>All city</h4>
+                                        <h4>All Banners</h4>
                                     </div>
                                     <div class="col-sm-3">
                                         <button type="button" class="btn btn-outline-secondary float-right m-3" data-toggle="modal" data-target="#exampleModal">
@@ -94,47 +128,21 @@
                                             Add New
                                         </button>
                                         <div class="modal fade show" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="padding-right: 17px; display: none;" aria-modal="true">
-                                            <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+                                            <div class="modal-dialog modal-dialog-centered modal-md" role="document">
                                                 <div class="modal-content">
                                                     <form method="post" enctype="multipart/form-data">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="addAdminTitle">Add City</h5>
+                                                            <h5 class="modal-title" id="addAdminTitle">Add Banner</h5>
                                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                 <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                                                             </button>
                                                         </div>
                                                         <div class="modal-body">
                                                             <div class="row">
-                                                                <div class="col-sm-3">
-                                                                    <label>country Name</label>
-                                                                    <select name="countryid" id="countryid" class="form-control" required onchange="country(this)">
-                                                                        <option seleted>Please Select country</option>
-                                                                        <?php
-                                                                        $countrysql = "SELECT * FROM country";
-                                                                        $countryResult = $conn->query($countrysql);
-                                                                        while($cRow = $countryResult->fetch_assoc()){
-                                                                            ?>
-                                                                            <option value="<?php echo $cRow['cid']?>"><?php echo $cRow['country_name']?></option>
-                                                                            <?php
-                                                                        }
-                                                                        ?>
-                                                                    </select>
-                                                                </div>
-                                                                <div class="col-sm-3">
-                                                                    <label>state Name</label>
-                                                                    <select name="stateid" id="stateid" class="form-control" required onchange="state(this)">
-                                                                        <option seleted>Please Select State</option>
-                                                                    </select>
-                                                                </div>
-                                                                <div class="col-sm-3">
-                                                                    <label>District Name</label>
-																	<select name="districtid" id="districtid" class="form-control" required>
-                                                                        <option seleted>Please Select District</option>
-                                                                    </select>
-                                                                </div>
-                                                                <div class="col-sm-3">
-                                                                    <label>City Name</label>
-                                                                    <input type="text" name="cityname" id="cityname" class="form-control" placeholder="Enter City name" required>
+                                                                <div class="col-sm-12">
+                                                                <label>Banner Image</label>
+																	<input type="file" name="image" id="image" class="form-control" >
+                                                                    <small style="color:red;font-weight:700">*Top Banner:(1312 * 640).</small>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -155,28 +163,22 @@
                                         <thead>
                                             <tr>
                                                 <th class="text-center">#</th>
-                                                <th class="text-center">country Name</th>
-                                                <th class="text-center">state Name</th>
-                                                <th class="text-center">District Name</th>
-                                                <th class="text-center">city Name</th>
+                                                <th class="text-center">Blood Banner</th>
                                                 <th class="text-center">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php
-                                                $sql = "SELECT * FROM `city` a LEFT OUTER JOIN district b ON a.district_id=b.did LEFT OUTER JOIN state c ON b.state_id=c.sid LEFT OUTER JOIN country d ON c.country_id=d.cid";
+                                                $sql = "SELECT * FROM blood_banner";
                                                 $result = $conn->query($sql);
                                                 $count = 0;
                                                 while($row = $result->fetch_assoc())
                                                 {
-                                                    $city_id = $row['city_id'];
+                                                    $id = $row['id'];
                                             ?>
                                                 <tr>
                                                     <td class="text-center"><?php echo ++$count ?></td>
-                                                    <td class="text-center"><b><?php echo $row['country_name'] ?></b></td>
-                                                    <td class="text-center"><b><?php echo $row['state_name'] ?></b></td>
-                                                    <td class="text-center"><b><?php echo $row['district_name'] ?></b></td>
-                                                    <td class="text-center"><b><?php echo $row['city_name'] ?></b></td>
+                                                    <td class="text-center"><img style="width: 200px" src="<?php echo $row["blood_banner_image"] ?>"></td>
                                                     <td class="text-center">
                                                         <ul class="table-controls">
                                                             <li>
@@ -184,42 +186,58 @@
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-3"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
                                                                 </a>
                                                                 <div class="modal fade" id="edit<?php echo $count ?>" tabindex="-1" role="dialog" aria-labelledby="addAdminTitle<?php echo $count ?>" style="display: none;" aria-hidden="true">
-                                                                    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                                                    <div class="modal-dialog modal-dialog-centered modal-md" role="document">
                                                                         <div class="modal-content">
                                                                             <form method="post" enctype="multipart/form-data">
                                                                                 <div class="modal-header">
-                                                                                    <h5 class="modal-title" id="addAdminTitle<?php echo $count ?>">Edit City</h5>
+                                                                                    <h5 class="modal-title" id="addAdminTitle<?php echo $count ?>">Edit Banner</h5>
                                                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                                         <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                                                                                     </button>
                                                                                 </div>
                                                                                 <div class="modal-body">
                                                                                     <div class="row">
-                                                                                        <div class="col-sm-6">
-                                                                                            <label>District Name</label>
-                                                                                            <select name="editdistrictid" id="editdistrictid<?php echo $count ?>" class="form-control">
-                                                                                            <?php
-                                                                                            $checkSql = "SELECT * FROM district";
-                                                                                            $checkResult = $conn->query($checkSql);
-                                                                                            while($checkRow = $checkResult->fetch_assoc()){
-                                                                                                ?>
-                                                                                                <option value="<?php echo $checkRow['did'];?>"<?php if($checkRow['did'] == $row['district_id']){ echo "selected"; }?>><?php echo $checkRow['district_name'];?></option>
-                                                                                                <?php
-                                                                                            }
-                                                                                            ?>
-                                                                                            </select>
+                                                                                        <div class="col-sm-10">
+                                                                                            <label>Banner Image</label>
+                                                                                            <input type="file" name="image" id="image<?php echo $count ?>" class="form-control" >
+                                                                                            <small style="color:red;font-weight:700">*Top Banner:(1312 * 640).</small>
                                                                                         </div>
-                                                                                        <div class="col-sm-6">
-                                                                                            <label>District Name</label>
-                                                                                            <input type="text" name="editcityname" id="editcityname<?php echo $count ?>" class="form-control" placeholder="city name" value="<?php echo $row['city_name'] ?>">
-                                                                                        </div>
-                                                                                        
+                                                                                        <div class="col-sm-1 mt-4">
+                                                                                            <img style="width: 40px;height:40px" src="<?php echo $row["blood_banner_image"] ?>">
+                                                                                         </div>
                                                                                     </div>
-                                                                                    <input type="hidden" name="city_id" value="<?php echo $city_id ?>">
+                                                                                    <input type="hidden" name="banner_id" value="<?php echo $id ?>">
                                                                                 </div>
                                                                                 <div class="modal-footer">
                                                                                     <button class="btn" data-dismiss="modal"><i class="flaticon-cancel-12"></i> Discard</button>
                                                                                     <button type="submit" name="edit" class="btn btn-primary">Save</button>
+                                                                                </div>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <a data-toggle="modal" data-target="#deleteAdmin<?php echo $count ?>">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-circle text-danger"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+                                                                </a>
+                                                                <div class="modal fade" id="deleteAdmin<?php echo $count ?>" tabindex="-1" role="dialog" aria-labelledby="addAdminTitle" style="display: none;" aria-hidden="true">
+                                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                                        <div class="modal-content">
+                                                                            <form method="post">
+                                                                                <div class="modal-header">
+                                                                                    <h5 class="modal-title" id="addAdminTitle">Delete Banner</h5>
+                                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                                                                    </button>
+                                                                                </div>
+                                                                                <div class="modal-body">
+                                                                                    <p class="modal-text">Are you sure to delete this banner!</p>
+                                                                                    <input type="hidden" name="banner_id" value="<?php echo $id ?>">
+                                                                                </div>
+                                                                                <div class="modal-footer">
+                                                                                    <button class="btn" data-dismiss="modal"> No</button>
+                                                                                    <button type="submit" name="delete" class="btn btn-danger">Delete</button>
                                                                                 </div>
                                                                             </form>
                                                                         </div>
@@ -262,28 +280,3 @@
     <script src="plugins/notification/snackbar/snackbar.min.js"></script>
 </body>
 </html>
-<script>
-    function country(id){
-        var countryid = id.value;
-        $.ajax({
-            type: "POST",
-            url: "ajax/statefind.php",
-            data:{'id':countryid},
-            success: function(data){
-                document.getElementById("stateid").innerHTML = data;
-            }
-        });
-    }
-    function state(id){
-        var stateid = id.value;
-        
-        $.ajax({
-            type: "POST",
-            url: "ajax/districtfind.php",
-            data:{'id':stateid},
-            success: function(data){
-                document.getElementById("districtid").innerHTML = data;
-            }
-        });
-    }
-</script>
