@@ -24,7 +24,7 @@
                     $blood_donor_dob = $data->blood_donor_dob;
                     $blood_donor_gender = $data->blood_donor_gender;
                     $donor_phone_no = $data->alter_phone_no;
-                    $donor_district_id = $data->donor_district_id;
+                    $donor_city_id = $data->donor_city_id;
                     $donor_address = $data->donor_address;
                     $donor_latitude = $data->donor_latitude;
                     $donor_longitude = $data->donor_longitude;
@@ -45,7 +45,7 @@
                     $checkResult = $conn->query($checkSql);
                     if($checkResult->num_rows == NULL){
 
-                        $sql = "INSERT INTO blood_donation (user_id,blood_donor_status,blood_donor_name,blood_donor_age,blood_donor_dob,blood_donor_gender,donor_alter_phone_no,donor_district_id,donor_address,donor_latitude,donor_longitude,blood_group,donor_height,donor_weight,ever_donate_blood_before,last_time_donated_date,any_diseases_status,diseases_command,any_allergies_status,allergies_command,take_any_medication,medication_command,in_bitween_days) VALUES ('$user_id','$blood_donor_status','$blood_donor_name','$blood_donor_age','$blood_donor_dob','$blood_donor_gender','$donor_phone_no','$donor_district_id','$donor_address','$donor_latitude','$donor_longitude','$blood_group','$donor_height','$donor_weight','$ever_donate_blood_before','$last_time_donated_date','$any_diseases_status','$diseases_command','$any_allergies_status','$allergies_command','$any_medication_status','$medication_command','$in_bitween_days')";
+                        $sql = "INSERT INTO blood_donation (user_id,blood_donor_status,blood_donor_name,blood_donor_age,blood_donor_dob,blood_donor_gender,donor_alter_phone_no,donor_city_id,donor_address,donor_latitude,donor_longitude,blood_group,donor_height,donor_weight,ever_donate_blood_before,last_time_donated_date,any_diseases_status,diseases_command,any_allergies_status,allergies_command,take_any_medication,medication_command,in_bitween_days) VALUES ('$user_id','$blood_donor_status','$blood_donor_name','$blood_donor_age','$blood_donor_dob','$blood_donor_gender','$donor_phone_no','$donor_city_id','$donor_address','$donor_latitude','$donor_longitude','$blood_group','$donor_height','$donor_weight','$ever_donate_blood_before','$last_time_donated_date','$any_diseases_status','$diseases_command','$any_allergies_status','$allergies_command','$any_medication_status','$medication_command','$in_bitween_days')";
                         if($conn->query($sql) === TRUE){
                             http_response_code(200);
                             $output_array['status'] = true;
