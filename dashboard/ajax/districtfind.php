@@ -8,9 +8,11 @@
         $sql= "SELECT * FROM district WHERE state_id='$id'";
         $result = $conn->query($sql);
         if($result->num_rows > 0){
+            $district = "<option value=''>Select district name</option>";
             while($row = $result->fetch_assoc()){
-                echo "<option value=".$row['did'].">".$row['district_name']."</option>";
+                $district .= "<option value=".$row['did'].">".$row['district_name']."</option>";
             }
+            echo $district;
         }
 
 	}

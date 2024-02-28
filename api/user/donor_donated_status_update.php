@@ -12,26 +12,28 @@
 
 			header('authorization: ' . $responceToken);
 
-            if(!empty($data->status) && !empty($data->request_id)){
-                // $donor_id=$data->donor_id;
+            if(!empty($data->request_id) && !empty($data->dummyotp)){
+                
                 $request_id=$data->request_id;
-                $status=$data->status;
-                $reason=$data->reason;
+                $dummyotp=$data->dummyotp;
             
                 $sql = "SELECT * FROM user WHERE user_id='$user_id'";
                 $result = $conn->query($sql);
                 if($result->num_rows > 0){
-                    $date = date('d-m-Y');
-                    $insertSql = "INSERT INTO rq_accept_reject (donor_id,request_id,accept_reject_date,danated_status,reject_reason) VALUES('$user_id','$request_id','$date','$status','$reason')";
-                    if($conn->query($insertSql)===TRUE){
-                        if($status == 1){
-                            $msg = "Accepted";
-                        }elseif($status == 2){
-                            $msg = "Rejected";
+                    $reqSql = "SELECT * FROM blood_request WHERE blood_request_id = '$request_id' AND dummy_otp='$dummyotp'";
+                    if($conn->query($reqSql) == TRUE){
+
+                        $updateSql = "UPDATE rq_accept_reject SET danated_status='1' WHERE donor_id='$user_id' AND request_id='$request_id'";
+                        if($conn->query($updateSql)===TRUE){
+                            http_response_code(200);
+                            $output_array['status'] = true;
+                            $output_array['message'] = "Thanks";
                         }
-                        http_response_code(200);
-                        $output_array['status'] = true;
-                        $output_array['message'] = $msg;
+
+                    }else{
+                        http_response_code(404);
+                        $output_array['status'] = false;
+                        $output_array['message'] = "OTP mismatch";
                     }
                 } else{
                     http_response_code(404);

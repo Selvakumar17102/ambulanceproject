@@ -103,6 +103,9 @@
                             <li class="<?php echo $bloodlist ?>">
                                 <a href="bloodlist.php"> Blood List </a>
                             </li>
+                            <li class="<?php echo $bloodbank ?>">
+                                <a href="bloodbank.php"> Blood Bank</a>
+                            </li>
                             <li class="<?php echo $blooddonation ?>">
                                 <a href="blooddonation.php">Blood Donation</a>
                             </li>

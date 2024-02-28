@@ -107,6 +107,7 @@
                                                 <th class="text-center">Gender</th>
                                                 <th class="text-center">Phone No</th>
                                                 <th class="text-center">Alter Phone No</th>
+                                                <th class="text-center">city name</th>
                                                 <th class="text-center">Address</th>
                                                 <th class="text-center">Height</th>
                                                 <th class="text-center">Weight</th>
@@ -118,7 +119,7 @@
                                         </thead>
                                         <tbody>
                                             <?php
-                                                $sql = "SELECT *,a.blood_group as donorbloodgroup FROM blood_donation a LEFT OUTER JOIN user b ON a.user_id=b.user_id";
+                                                $sql = "SELECT *,a.blood_group as donorbloodgroup FROM blood_donation a LEFT OUTER JOIN user b ON a.user_id=b.user_id LEFT OUTER JOIN city c ON a.donor_city_id=c.city_id";
                                                 $result = $conn->query($sql);
                                                 $count = 0;
                                                 while($row = $result->fetch_assoc())
@@ -158,13 +159,114 @@
                                                     <td class="text-center"><?php echo $row['blood_donor_gender'] ?></td>
                                                     <td class="text-center"><?php echo $row['user_phone_number'] ?></td>
                                                     <td class="text-center"><?php echo $row['donor_alter_phone_no'] ?></td>
+                                                    <td class="text-center"><?php echo $row['city_name'] ?></td>
                                                     <td class="text-center"><?php echo $row['donor_address'] ?></td>
                                                     <td class="text-center"><?php echo $row['donor_height'] ?></td>
                                                     <td class="text-center"><?php echo $row['donor_weight'] ?></td>
-                                                    <td class="text-center"><?php echo $beforeStatus ?></td>
-                                                    <td class="text-center"><?php echo $diseasesStatus ?></td>
-                                                    <td class="text-center"><?php echo $allergiesStatus ?></td>
-                                                    <td class="text-center"><?php echo $medicationStatus ?></td>
+                                                    <td class="text-center">
+                                                        <a data-toggle="modal" data-target="#edit<?php echo $count ?>"><?php echo $beforeStatus ?></a>
+                                                        <div class="modal fade" id="edit<?php echo $count ?>" tabindex="-1" role="dialog" aria-labelledby="addAdminTitle<?php echo $count ?>" style="display: none;" aria-hidden="true">
+                                                            <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="addAdminTitle<?php echo $count ?>">Last time Donated date</h5>
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <div class="row">
+                                                                            <div class="col-sm-12">
+                                                                                <label>Last time Donated date</label>
+                                                                                <input type="date" id="editbankname<?php echo $count ?>" class="form-control" value="<?php echo $row['last_time_donated_date'] ?>" readonly>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button class="btn" data-dismiss="modal"><i class="flaticon-cancel-12"></i> Discard</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <a data-toggle="modal" data-target="#diseases<?php echo $count ?>"><?php echo $diseasesStatus ?></a>
+                                                        <div class="modal fade" id="diseases<?php echo $count ?>" tabindex="-1" role="dialog" aria-labelledby="addAdminTitle<?php echo $count ?>" style="display: none;" aria-hidden="true">
+                                                            <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="addAdminTitle<?php echo $count ?>">diseases command</h5>
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <div class="row">
+                                                                            <div class="col-sm-12">
+                                                                                <label>diseases command</label>
+                                                                                <textarea  id="diseases<?php echo $count ?>" class="form-control" readonly><?php echo $row['diseases_command'] ?></textarea>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button class="btn" data-dismiss="modal"><i class="flaticon-cancel-12"></i> Discard</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <a data-toggle="modal" data-target="#allergies<?php echo $count ?>"><?php echo $allergiesStatus ?></a>
+                                                        <div class="modal fade" id="allergies<?php echo $count ?>" tabindex="-1" role="dialog" aria-labelledby="addAdminTitle<?php echo $count ?>" style="display: none;" aria-hidden="true">
+                                                            <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="addAdminTitle<?php echo $count ?>">allergies command</h5>
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <div class="row">
+                                                                            <div class="col-sm-12">
+                                                                                <label>allergies command</label>
+                                                                                <textarea  id="allergies<?php echo $count ?>" class="form-control" readonly><?php echo $row['allergies_command'] ?></textarea>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button class="btn" data-dismiss="modal"><i class="flaticon-cancel-12"></i> Discard</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <a data-toggle="modal" data-target="#medication<?php echo $count ?>"><?php echo $medicationStatus ?></a>
+                                                        <div class="modal fade" id="medication<?php echo $count ?>" tabindex="-1" role="dialog" aria-labelledby="addAdminTitle<?php echo $count ?>" style="display: none;" aria-hidden="true">
+                                                            <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h5 class="modal-title" id="addAdminTitle<?php echo $count ?>">medication command</h5>
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <div class="row">
+                                                                            <div class="col-sm-12">
+                                                                                <label>medication command</label>
+                                                                                <textarea  id="medication<?php echo $count ?>" class="form-control" readonly><?php echo $row['medication_command'] ?></textarea>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button class="btn" data-dismiss="modal"><i class="flaticon-cancel-12"></i> Discard</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
                                                 </tr>
                                             <?php
                                                 }
