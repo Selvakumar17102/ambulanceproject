@@ -273,6 +273,27 @@
                             </li>
                         </ul>
                     </li>
+                    <li class="menu <?php echo $bloodreport ?>">
+                        <?php
+                            if($bloodreportBoolean != 'true'){
+                                $bloodreportBoolean = 'false';
+                            }
+                        ?>
+                        <a href="#bloodreport" data-toggle="collapse" aria-expanded="<?php echo $bloodreportBoolean ?>" class="dropdown-toggle">
+                            <div class="">
+                                <img style="width: 30px;padding-right: 5px;" src="assets/img/icon/report.png" alt="">
+                                <span>Blood Reports</span>
+                            </div>
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                            </div>
+                        </a>
+                        <ul class="collapse submenu list-unstyled <?php echo $bloodreportShow ?>" id="bloodreport" data-parent="#accordionExample">
+                            <li class="<?php echo $donoruserReport ?>">
+                                <a href="donorreportlist.php"> Donor list </a>
+                            </li>
+                        </ul>
+                    </li>
             <?php
                 } else{
             ?>

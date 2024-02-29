@@ -1452,7 +1452,9 @@ function notificationAdd(){
 function filterReport(url){
     let fd = document.getElementById('fd')
     let ld = document.getElementById('ld')
-
+    let city = document.getElementById('cityvalue')
+    // let ld = document.getElementById('ld')
+alert(city.value);
     if(fd.value == ''){
         fd.style.border = '1px solid red'
         return false
@@ -1463,7 +1465,13 @@ function filterReport(url){
             return false
         } else{
             ld.style.border = '1px solid #bfc9d4'
-            location.replace(url+'?fd='+fd.value+'&ld='+ld.value)
+            if(city.value == ''){
+                ld.style.border = '1px solid red'
+                return false
+            }else{
+                city.style.border = '1px solid #bfc9d4'
+                location.replace(url+'?fd='+fd.value+'&ld='+ld.value+'&city='+city.value)
+            }
         }
     }
 }
