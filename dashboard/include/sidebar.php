@@ -292,6 +292,9 @@
                             <li class="<?php echo $donoruserReport ?>">
                                 <a href="donorreportlist.php"> Donor list </a>
                             </li>
+                            <li class="<?php echo $requestuserReport ?>">
+                                <a href="requestreportlist.php"> Request list </a>
+                            </li>
                         </ul>
                     </li>
             <?php

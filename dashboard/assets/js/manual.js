@@ -1453,8 +1453,8 @@ function filterReport(url){
     let fd = document.getElementById('fd')
     let ld = document.getElementById('ld')
     let city = document.getElementById('cityvalue')
-    // let ld = document.getElementById('ld')
-alert(city.value);
+    let bg = document.getElementById('bg')
+
     if(fd.value == ''){
         fd.style.border = '1px solid red'
         return false
@@ -1465,13 +1465,13 @@ alert(city.value);
             return false
         } else{
             ld.style.border = '1px solid #bfc9d4'
-            if(city.value == ''){
-                ld.style.border = '1px solid red'
-                return false
-            }else{
-                city.style.border = '1px solid #bfc9d4'
-                location.replace(url+'?fd='+fd.value+'&ld='+ld.value+'&city='+city.value)
-            }
+            // if(city.value == ''){
+            //     city.style.border = '1px solid red'
+            //     return false
+            // }else{
+            //     city.style.border = '1px solid #bfc9d4'
+                location.replace(url+'?fd='+fd.value+'&ld='+ld.value+'&city='+city.value+'&bg='+bg.value)
+            // }
         }
     }
 }

@@ -5,7 +5,7 @@
     $bloodreport = 'active';
     $bloodreportShow = 'show';
     $bloodreportBoolean = 'true';
-    $donoruserReport = 'active';
+    $requestuserReport = 'active';
 
     // $start = $end = '';
     // if($_REQUEST['fd'] != ''){
@@ -29,7 +29,7 @@
     if($_REQUEST['city'] != ''){
         $cityvalue = $_REQUEST['city'];
 
-        $city = "AND a.donor_city_id='$cityvalue'";
+        $city = "AND a.request_city_id='$cityvalue'";
     }
 
     if($_REQUEST['bg'] != ''){
@@ -46,7 +46,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
-    <title>Donor User Report | Instant Ambulance</title>
+    <title>Request User Report | Instant Ambulance</title>
     <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico"/>
     <link href="assets/css/loader.css" rel="stylesheet" type="text/css" />
     <script src="assets/js/loader.js"></script>
@@ -113,7 +113,7 @@
                                     <div class="col-sm-6 mt-2">
                                         <label for="ld">Blood Group</label>
                                         <select name="bg" id="bg" class="form-control">
-                                            <option value="" selected>--Select blood group--</option>
+                                            <option value="">--Select blood group--</option>
                                             <?php
                                             $sql = "SELECT * FROM bloodlist";
                                             $result = $conn->query($sql);
@@ -128,7 +128,7 @@
                                     <div class="col-sm-6 mt-2">
                                         <label for="ld">City</label>
                                         <select name="city" id="cityvalue" class="form-control">
-                                            <option value='' selected>--Select City--</option>
+                                            <option value=''>--Select City--</option>
                                             <?php
                                             $sql = "SELECT * FROM city";
                                             $result = $conn->query($sql);
@@ -143,7 +143,7 @@
                                 </div>
                                 <div class="row mt-3">
                                     <div class="col-sm-12">
-                                        <button class="btn btn-primary float-right" onclick="filterReport('donorreportlist.php')">Filter</button>
+                                        <button class="btn btn-primary float-right" onclick="filterReport('requestreportlist.php')">Filter</button>
                                     </div>
                                 </div>
                             </div>
@@ -165,23 +165,24 @@
                                         <thead>
                                             <tr>
                                                 <th class="text-center">S.No</th>
-                                                <th class="text-center">Name</th>
+                                                <th class="text-center">Patient Name</th>
                                                 <th class="text-center">Blood Group</th>
                                                 <th class="text-center">City</th>
-                                                <th class="text-center">Total Donation</th>
+                                                <th class="text-center">Unit</th>
+                                                <th class="text-center">Total request</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php
-                                                $sql = "SELECT *,a.blood_group as donorbloodgroup FROM blood_donation a LEFT OUTER JOIN user b ON a.user_id=b.user_id LEFT OUTER JOIN city c ON a.donor_city_id=c.city_id WHERE a.create_date BETWEEN '$start' AND '$end' $city $bloodgroup";
+                                                $sql = "SELECT *,a.blood_group as donorbloodgroup FROM blood_request a LEFT OUTER JOIN user b ON a.user_id=b.user_id LEFT OUTER JOIN city c ON a.request_city_id=c.city_id WHERE a.request_date BETWEEN '$start' AND '$end' $city $bloodgroup";
                                                 $result = $conn->query($sql);
                                                 $count = 1;
                                                 while($row = $result->fetch_assoc()){
-                                                    $user_id = $row['user_id'];
+                                                    $user_id = $row['blood_request_id'];
 
                                                     $totalOrder = 0;
 
-                                                    $sql1 = "SELECT * FROM rq_accept_reject WHERE donor_id='$user_id' AND danated_status='1'";
+                                                    $sql1 = "SELECT * FROM rq_accept_reject WHERE request_id='$user_id' AND danated_status='1'";
                                                     $result1 = $conn->query($sql1);
                                                     if($result1->num_rows){
                                                         while($row1 = $result1->fetch_assoc()){
@@ -191,9 +192,10 @@
                                             ?>
                                                     <tr>
                                                         <td class="text-center"><?php echo $count++ ?></td>
-                                                        <td class="text-center"><a style="color: #790c46;font-weight: 600" href="#"><?php echo $row['blood_donor_name'] ?></a></td>
+                                                        <td class="text-center"><a style="color: #790c46;font-weight: 600" href="#"><?php echo $row['patient_name'] ?></a></td>
                                                         <td class="text-center"><?php echo $row['donorbloodgroup'] ?></td>
                                                         <td class="text-center"><?php echo $row['city_name'] ?></td>
+                                                        <td class="text-center"><?php echo $row['unit'] ?></td>
                                                         <td class="text-center"><?php echo $totalOrder; ?></td>
                                                     </tr>
                                             <?php
