@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>instantambulance!</title>
+        <title>Salvo ambulance!</title>
     </head>
     <body>
         <h1>Hii!</h1>

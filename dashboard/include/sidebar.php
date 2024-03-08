@@ -97,6 +97,9 @@
                             </div>
                         </a>
                         <ul class="collapse submenu list-unstyled <?php echo $bloodShow ?>" id="blood" data-parent="#accordionExample">
+                            <li class="<?php echo $bloodapp ?>">
+                                <a href="bloodAppcontrol.php"> Blood App Control </a>
+                            </li>
                             <li class="<?php echo $bloodbanner ?>">
                                 <a href="bloodbanner.php"> Blood Banner </a>
                             </li>
