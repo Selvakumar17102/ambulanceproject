@@ -115,11 +115,17 @@
                                                 <th class="text-center">Any diseases status</th>
                                                 <th class="text-center">Any allergies status</th>
                                                 <th class="text-center">Take any medication</th>
+                                                <th class="text-center">Bleeding Status</th>
+                                                <th class="text-center">Cardiac Status</th>
+                                                <th class="text-center">Hiv Status</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php
-                                                $sql = "SELECT *,a.blood_group as donorbloodgroup FROM blood_donation a LEFT OUTER JOIN user b ON a.user_id=b.user_id LEFT OUTER JOIN city c ON a.donor_city_id=c.city_id";
+                                                $sql = "SELECT * FROM blood_donation a 
+                                                LEFT OUTER JOIN user b ON a.user_id=b.user_id 
+                                                LEFT OUTER JOIN city c ON a.donor_city_id=c.city_id
+                                                LEFT OUTER JOIN bloodlist d ON a.blood_group = d.blood_id";
                                                 $result = $conn->query($sql);
                                                 $count = 0;
                                                 while($row = $result->fetch_assoc())
@@ -149,11 +155,28 @@
                                                     } else{
                                                         $medicationStatus = '<span class="badge outline-badge-danger">NO</span>';
                                                     }
+
+                                                    if($row['bleeding_status'] == 1){
+                                                        $bleedingStatus = '<span class="badge outline-badge-success">YES</span>';
+                                                    } else{
+                                                        $bleedingStatus = '<span class="badge outline-badge-danger">NO</span>';
+                                                    }
+                                                    if($row['cardiac_status'] == 1){
+                                                        $cardiacStatus = '<span class="badge outline-badge-success">YES</span>';
+                                                    } else{
+                                                        $cardiacStatus = '<span class="badge outline-badge-danger">NO</span>';
+                                                    }
+                                                    if($row['hiv_status'] == 1){
+                                                        $hivStatus = '<span class="badge outline-badge-success">YES</span>';
+                                                    } else{
+                                                        $hivStatus = '<span class="badge outline-badge-danger">NO</span>';
+                                                    }
+                                                    
                                             ?>
                                                 <tr>
                                                     <td class="text-center"><?php echo ++$count ?></td>
                                                     <td class="text-center"><?php echo $row['blood_donor_name'] ?></td>
-                                                    <td class="text-center"><b><?php echo $row['donorbloodgroup'] ?></b></td>
+                                                    <td class="text-center"><b><?php echo $row['blood_name'] ?></b></td>
                                                     <td class="text-center"><?php echo $row['blood_donor_age'] ?></td>
                                                     <td class="text-center"><?php echo $row['blood_donor_dob'] ?></td>
                                                     <td class="text-center"><?php echo $row['blood_donor_gender'] ?></td>
@@ -267,6 +290,9 @@
                                                             </div>
                                                         </div>
                                                     </td>
+                                                    <td class="text-center"><?php echo $bleedingStatus ?></td>
+                                                    <td class="text-center"><?php echo $cardiacStatus?></td>
+                                                    <td class="text-center"><?php echo $hivStatus ?></td>
                                                 </tr>
                                             <?php
                                                 }

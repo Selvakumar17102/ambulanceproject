@@ -68,20 +68,24 @@
                                             <tr>
                                                 <th class="text-center">#</th>
                                                 <th class="text-center">patient Name</th>
+                                                <th class="text-center">Age</th>
                                                 <th class="text-center">Blood Gruop</th>
                                                 <th class="text-center">phone No</th>
                                                 <th class="text-center">Alter phone No</th>
-                                                <th class="text-center">city</th>
+                                                <!-- <th class="text-center">city</th> -->
                                                 <th class="text-center">Request Date</th>
                                                 <th class="text-center">Unit</th>
                                                 <th class="text-center">Hospital location</th>
                                                 <th class="text-center">Emergency status</th>
-                                                <th class="text-center">Additional notes</th>
+                                                <!-- <th class="text-center">Additional notes</th> -->
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php
-                                                $sql = "SELECT *,a.blood_group as requestbloodgroup FROM blood_request a LEFT OUTER JOIN user b ON a.user_id=b.user_id LEFT OUTER JOIN city c ON a.request_city_id=c.city_id";
+                                                $sql = "SELECT * FROM blood_request a 
+                                                LEFT OUTER JOIN user b ON a.user_id=b.user_id 
+                                                LEFT OUTER JOIN city c ON a.request_city_id=c.city_id
+                                                LEFT OUTER JOIN bloodlist d ON a.blood_group=d.blood_id";
                                                 $result = $conn->query($sql);
                                                 $count = 0;
                                                 while($row = $result->fetch_assoc())
@@ -98,15 +102,16 @@
                                                 <tr>
                                                     <td class="text-center"><?php echo ++$count ?></td>
                                                     <td class="text-center"><?php echo $row['patient_name'] ?></td>
-                                                    <td class="text-center"><b><?php echo $row['requestbloodgroup'] ?></b></td>
-                                                    <td class="text-center"><?php echo $row['user_phone_number'] ?></td>
+                                                    <td class="text-center"><?php echo $row['age'] ?></td>
+                                                    <td class="text-center"><b><?php echo $row['blood_name'] ?></b></td>
+                                                    <td class="text-center"><?php echo $row['phone_no'] ?></td>
                                                     <td class="text-center"><?php echo $row['alter_phone_no'] ?></td>
-                                                    <td class="text-center"><?php echo $row['city_name'] ?></td>
+                                                    <!-- <td class="text-center"><?php echo $row['city_name'] ?></td> -->
                                                     <td class="text-center"><?php echo $row['request_date'] ?></td>
                                                     <td class="text-center"><b><?php echo $row['unit'] ?></b></td>
                                                     <td class="text-center"><?php echo $row['hospital_location'] ?></td>
                                                     <td class="text-center"><?php echo $status ?></td>
-                                                    <td class="text-center"><?php echo $row['additional_notes'] ?></td>
+                                                    <!-- <td class="text-center"><?php echo $row['additional_notes'] ?></td> -->
                                                 </tr>
                                             <?php
                                                 }

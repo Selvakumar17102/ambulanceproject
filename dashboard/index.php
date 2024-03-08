@@ -21,7 +21,7 @@
             <div class="form-form-wrap">
                 <div class="form-container">
                     <div class="form-content">
-                        <img style="width: 200px;margin-bottom: 15px;" src="assets/img/index_logo.png" alt="">
+                        <img style="width: 200px;margin-bottom: 15px;" src="assets/img/h-logo.png" alt="">
                         <p id="Message" style="margin-bottom: 0px">Log in to continue</p>
                         <form class="text-left">
                             <div class="form">
