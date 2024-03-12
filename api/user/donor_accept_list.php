@@ -24,11 +24,7 @@
                     // $req_id = $reqrow['blood_request_id'];
                     if(!empty($data->request_id)){
                         $req_id = $data->request_id;
-                            $accSql ="SELECT * FROM rq_accept_reject a 
-                            LEFT OUTER JOIN blood_donation b ON a.donor_id=b.user_id 
-                            LEFT OUTER JOIN bloodlist c ON b.blood_group=c.blood_id
-                            LEFT OUTER JOIN user d ON b.user_id=d.user_id
-                            WHERE a.request_id ='$req_id' AND a.danated_status ='0'";
+                            $accSql ="SELECT * FROM rq_accept_reject a LEFT OUTER JOIN blood_donation b ON a.donor_id=b.user_id LEFT OUTER JOIN bloodlist c ON b.blood_group=c.blood_id LEFT OUTER JOIN user d ON b.user_id=d.user_id WHERE a.request_id ='$req_id'";
                             $accResult = $conn->query($accSql);
                             $i = 0;
                             if($accResult->num_rows > 0){

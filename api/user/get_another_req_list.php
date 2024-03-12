@@ -36,8 +36,13 @@
                             $reqlat = $reqRow['latitude'];
                             $reqlong = $reqRow['longitude'];
 
+
+                            $appsql = "SELECT * FROM `blood_app_control`";
+                            $appResult = $conn->query($appsql);
+                            $approw =$appResult->fetch_assoc();
+
                             $km = round(getDistance($donarlat,$donarlong,$reqlat,$reqlong));
-                            if($km < 1000){
+                            if($km < (int)$approw['request_km']){
 
                                 if($reqRow['emergency_status'] == 1){
                                     $eStatus = "Emergency";

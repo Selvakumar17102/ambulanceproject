@@ -20,6 +20,7 @@
 
                 $checkSql = "SELECT * FROM `blood_donation` WHERE user_id='$user_id'";
                 $checkReult = $conn->query($checkSql);
+                $donorRow = $checkReult->fetch_assoc();
                 if($checkReult->num_rows > 0){
                     $donor_status = "1";
                 }else{
@@ -42,6 +43,7 @@
                 $output_array['GTS']['thyroid'] = (int)$row['thyroid'];
                 $output_array['GTS']['asthma'] = (int)$row['asthma'];
                 $output_array['GTS']['is_donor'] = $donor_status;
+                $output_array['GTS']['last_donation_date'] = $donorRow['last_time_donated_date'];
 
 
 

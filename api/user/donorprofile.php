@@ -40,7 +40,7 @@
                     $output_array['GTS']['donor_height'] = $donorrow['donor_height'];
                     $output_array['GTS']['donor_weight'] = $donorrow['donor_weight'];
                     $output_array['GTS']['ever_donate_blood_before'] = $donorrow['ever_donate_blood_before'];
-                    $output_array['GTS']['last_time_donated_date'] = $donorrow['last_time_donated_date'];
+                    $output_array['GTS']['last_donation_date'] = $donorrow['last_time_donated_date'];
                     $output_array['GTS']['any_diseases_status'] = $donorrow['any_diseases_status'];
                     $output_array['GTS']['diseases_command'] = $donorrow['diseases_command'];
                     $output_array['GTS']['any_allergies_status'] = $donorrow['any_allergies_status'];

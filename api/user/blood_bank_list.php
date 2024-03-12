@@ -14,8 +14,13 @@
 
 				$reqlat = $row['blood_bank_latitude'];
                 $reqlong = $row['blood_bank_longitude'];
+
+				$appsql = "SELECT * FROM `blood_app_control`";
+                $appResult = $conn->query($appsql);
+                $approw =$appResult->fetch_assoc();
+
 				$km = round(getDistance($lat,$long,$reqlat,$reqlong));
-                    if($km < 100){
+                    if($km < (int)$approw['bank_km']){
 
 						$output_array["GTS"][$i]['blood_bank_id'] = (int)$row['blood_bank_id'];
 						$output_array["GTS"][$i]['blood_bank_name'] = $row['blood_bank_name'];

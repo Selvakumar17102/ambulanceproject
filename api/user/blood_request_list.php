@@ -36,8 +36,12 @@
                             $reqlat = $reqRow['latitude'];
                             $reqlong = $reqRow['longitude'];
 
+                            $appsql = "SELECT * FROM `blood_app_control`";
+                            $appResult = $conn->query($appsql);
+                            $approw =$appResult->fetch_assoc();
+
                             $km = round(getDistance($donarlat,$donarlong,$reqlat,$reqlong));
-                            if($km < 1000){
+                            if($km < (int)$approw['request_km']){
 
                                 if($reqRow['emergency_status'] == 1){
                                     $eStatus = "Emergency";
@@ -49,9 +53,9 @@
                                 $checkSql = "SELECT * FROM rq_accept_reject WHERE donor_id = '$user_id' AND request_id='$reqId'";
                                 $checkresult = $conn->query($checkSql);
                                 if($checkresult->num_rows > 0){
-                                    $status = 1;
+                                    $status = "1";
                                 }else{
-                                    $status = 0;
+                                    $status = "0";
                                 }
 
                                 $output_array['GTS'][$i]['blood_request_id'] = $reqRow['blood_request_id'];
@@ -67,7 +71,7 @@
                                 $output_array['GTS'][$i]['latitude'] = $reqRow['latitude'];
                                 $output_array['GTS'][$i]['longitude'] = $reqRow['longitude'];
                                 $output_array['GTS'][$i]['emergency_status'] = $eStatus;
-                                $output_array['GTS'][$i]['acceptstatus'] = $status;
+                                $output_array['GTS'][$i]['status'] = $status;
                             }
 
                             $i++;
