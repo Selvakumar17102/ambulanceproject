@@ -44,6 +44,18 @@
                                 }else{
                                     $eStatus = "Non-Emergency";
                                 }
+
+                                $reqId = $reqRow['blood_request_id'];
+
+                                $checkSql = "SELECT * FROM rq_accept_reject WHERE donor_id = '$user_id' AND request_id='$reqId'";
+                                $checkresult = $conn->query($checkSql);
+                                if($checkresult->num_rows > 0){
+                                    $status = 1;
+                                }else{
+                                    $status = 0;
+                                }
+
+
                                 $output_array['GTS'][$i]['blood_request_id'] = $reqRow['blood_request_id'];
                                 $output_array['GTS'][$i]['patient_name'] = $reqRow['patient_name'];
                                 $output_array['GTS'][$i]['age'] = $reqRow['age'];
@@ -57,6 +69,7 @@
                                 $output_array['GTS'][$i]['lat'] = $reqRow['latitude'];
                                 $output_array['GTS'][$i]['long'] = $reqRow['longitude'];
                                 $output_array['GTS'][$i]['emergency_status'] = $eStatus;
+                                $output_array['GTS'][$i]['acceptstatus'] = $status;
                             }
 
                             $i++;

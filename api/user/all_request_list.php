@@ -42,6 +42,7 @@
                                 $output_array['GTS'][$i]['lat'] = $reqRow['latitude'];
                                 $output_array['GTS'][$i]['long'] = $reqRow['longitude'];
                                 $output_array['GTS'][$i]['emergency_status'] = $eStatus;
+                                $output_array['GTS'][$i]['status'] = $reqRow['status'];
 
                             $i++;
 

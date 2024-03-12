@@ -1,10 +1,10 @@
 <?php
 	include("import.php");
 
-	if(!empty($data->latitude) && !empty($data->longtitude)){
+	if(!empty($data->latitude) && !empty($data->longitude)){
 		// $city_id = $data->city_id;
 		$lat = $data->latitude;
-		$long = $data->longtitude;
+		$long = $data->longitude;
 
 		$sql = "SELECT * FROM blood_bank";
 		$result = $conn->query($sql);
