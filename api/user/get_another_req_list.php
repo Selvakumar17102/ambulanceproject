@@ -37,7 +37,7 @@
                             $reqlong = $reqRow['longitude'];
 
                             $km = round(getDistance($donarlat,$donarlong,$reqlat,$reqlong));
-                            if($km < 10){
+                            if($km < 1000){
 
                                 if($reqRow['emergency_status'] == 1){
                                     $eStatus = "Emergency";

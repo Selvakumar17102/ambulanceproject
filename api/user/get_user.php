@@ -18,6 +18,14 @@
             if($result->num_rows > 0){
                 $row = $result->fetch_assoc();
 
+                $checkSql = "SELECT * FROM `blood_donation` WHERE user_id='$user_id'";
+                $checkReult = $conn->query($checkSql);
+                if($checkReult->num_rows > 0){
+                    $donor_status = "1";
+                }else{
+                    $donor_status = "0";
+                }
+
                 $output_array['GTS']['user_id'] = (int)$row['user_id'];
                 $output_array['GTS']['name'] = $row['user_name'];
                 if($row['user_profile']){
@@ -33,6 +41,9 @@
                 $output_array['GTS']['sugar'] = (int)$row['sugar_level'];
                 $output_array['GTS']['thyroid'] = (int)$row['thyroid'];
                 $output_array['GTS']['asthma'] = (int)$row['asthma'];
+                $output_array['GTS']['is_donor'] = $donor_status;
+
+
 
                 $output_array['status'] = true;
             } else{

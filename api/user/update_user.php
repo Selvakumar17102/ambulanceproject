@@ -18,10 +18,10 @@
                 $user_alternate_phone_number = $_POST["user_alternate_phone_number"];
                 $user_email = $_POST["email_id"];
                 $blood_group = mysqli_real_escape_string($conn, $_POST["blood_group"]);
-                // $bp_level = $_POST["bp_level"];
-                // $sugar_level = $_POST["sugar"];
-                $hypertention = $_POST["hypertention"];
-                $diabetes = $_POST["diabetes"];
+                $bp_level = $_POST["bp_level"];
+                $sugar_level = $_POST["sugar"];
+                // $hypertention = $_POST["hypertention"];
+                // $diabetes = $_POST["diabetes"];
                 $thyroid = $_POST["thyroid"];
                 $asthma = $_POST["asthma"];
                 $image = $_FILES['image'];
@@ -29,8 +29,8 @@
                 $sql = "SELECT * FROM user WHERE user_id='$user_id'";
                 $result = $conn->query($sql);
                 if($result->num_rows > 0){
-                    // $sql = "UPDATE user SET user_name='$user_name',user_email='$user_email',user_alternate_phone_number='$user_alternate_phone_number',blood_group='$blood_group',bp_level='$bp_level',sugar_level='$sugar_level',thyroid='$thyroid',asthma='$asthma' WHERE user_id='$user_id'";
-                    $sql = "UPDATE user SET user_name='$user_name',user_email='$user_email',user_alternate_phone_number='$user_alternate_phone_number',blood_group='$blood_group',hypertention='$hypertention',diabetes='$diabetes',thyroid='$thyroid',asthma='$asthma' WHERE user_id='$user_id'";
+                    $sql = "UPDATE user SET user_name='$user_name',user_email='$user_email',user_alternate_phone_number='$user_alternate_phone_number',blood_group='$blood_group',bp_level='$bp_level',sugar_level='$sugar_level',thyroid='$thyroid',asthma='$asthma' WHERE user_id='$user_id'";
+                    // $sql = "UPDATE user SET user_name='$user_name',user_email='$user_email',user_alternate_phone_number='$user_alternate_phone_number',blood_group='$blood_group',hypertention='$hypertention',diabetes='$diabetes',thyroid='$thyroid',asthma='$asthma' WHERE user_id='$user_id'";
                     if($conn->query($sql) === TRUE){
 
                         $type = Pathinfo($image['name'],PATHINFO_EXTENSION);

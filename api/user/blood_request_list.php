@@ -37,7 +37,7 @@
                             $reqlong = $reqRow['longitude'];
 
                             $km = round(getDistance($donarlat,$donarlong,$reqlat,$reqlong));
-                            if($km < 10){
+                            if($km < 1000){
 
                                 if($reqRow['emergency_status'] == 1){
                                     $eStatus = "Emergency";
@@ -64,8 +64,8 @@
                                 $output_array['GTS'][$i]['request_date'] = $reqRow['request_date'];
                                 $output_array['GTS'][$i]['unit'] = $reqRow['unit'];
                                 $output_array['GTS'][$i]['hospital_location'] = $reqRow['hospital_location'];
-                                $output_array['GTS'][$i]['lat'] = $reqRow['latitude'];
-                                $output_array['GTS'][$i]['long'] = $reqRow['longitude'];
+                                $output_array['GTS'][$i]['latitude'] = $reqRow['latitude'];
+                                $output_array['GTS'][$i]['longitude'] = $reqRow['longitude'];
                                 $output_array['GTS'][$i]['emergency_status'] = $eStatus;
                                 $output_array['GTS'][$i]['acceptstatus'] = $status;
                             }
