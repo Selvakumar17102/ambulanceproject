@@ -17,27 +17,12 @@
             // if($result->num_rows > 0){
             //     $row = $result->fetch_assoc();
 
-                $donorsql = "SELECT * FROM blood_donation a LEFT OUTER JOIN bloodlist b ON a.blood_group = b.blood_id WHERE user_id = '$user_id'";
-                $donorresult = $conn->query($donorsql);
-                if($donorresult->num_rows > 0){
-                    $donorrow = $donorresult->fetch_assoc();
 
-                    $donarlat = $donorrow['donor_latitude'];
-                    $donarlong = $donorrow['donor_longitude'];
-
-                    $bloodgrp = $donorrow['blood_group'];
-
-                    $reqSql ="SELECT * FROM blood_request a LEFT OUTER JOIN bloodlist b ON a.blood_group = b.blood_id WHERE a.blood_group = '$bloodgrp'";
+                    $reqSql ="SELECT * FROM blood_request a LEFT OUTER JOIN bloodlist b ON a.blood_group = b.blood_id WHERE a.user_id='$user_id'";
                     $reqResult = $conn->query($reqSql);
                     $i = 0;
                     if($reqResult->num_rows > 0){
                         while($reqRow = $reqResult->fetch_assoc()){
-
-                            $reqlat = $reqRow['latitude'];
-                            $reqlong = $reqRow['longitude'];
-
-                            $km = round(getDistance($donarlat,$donarlong,$reqlat,$reqlong));
-                            if($km < 10){
 
                                 if($reqRow['emergency_status'] == 1){
                                     $eStatus = "Emergency";
@@ -57,7 +42,6 @@
                                 $output_array['GTS'][$i]['lat'] = $reqRow['latitude'];
                                 $output_array['GTS'][$i]['long'] = $reqRow['longitude'];
                                 $output_array['GTS'][$i]['emergency_status'] = $eStatus;
-                            }
 
                             $i++;
 
@@ -68,11 +52,6 @@
 					    $output_array['status'] = false;
 					    $output_array['message'] = "Request not found";
                     }
-                } else{
-                    http_response_code(404);
-					$output_array['status'] = false;
-					$output_array['message'] = "Data not found";
-                }
             // } else{
             //     http_response_code(404);
             //     $output_array['status'] = false;

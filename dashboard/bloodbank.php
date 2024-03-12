@@ -9,12 +9,13 @@
     if(isset($_POST['add'])){
         $cityid = $_POST['cityid'];
         $bloodbank = $_POST['bloodbank'];
+        $bloodbankphone = $_POST['bloodbankphone'];
         $address = $_POST['address'];
         $latitude = $_POST['latitude'];
         $longitude = $_POST['longitude'];
 
         if($bloodbank){
-            $insertSql = "INSERT INTO blood_bank (blood_bank_city_id,blood_bank_name,blood_bank_address,blood_bank_latitude,blood_bank_longitude) VALUES('$cityid','$bloodbank','$address','$latitude','$longitude')";
+            $insertSql = "INSERT INTO blood_bank (blood_bank_city_id,blood_bank_name,blood_bank_phone,blood_bank_address,blood_bank_latitude,blood_bank_longitude) VALUES('$cityid','$bloodbank','$bloodbankphone','$address','$latitude','$longitude')";
             if($conn->query($insertSql) === TRUE){
                 header('Location: bloodbank.php?msg=blood bank Added !');
             }
@@ -27,12 +28,13 @@
         $bank_id = $_POST['bank_id'];
         $editcityid = $_POST['editcityid'];
         $editbankname = $_POST['editbankname'];
+        $editbankphone = $_POST['editbankphone'];
         $editaddress = $_POST['editaddress'];
         $editlatitude = $_POST['editlatitude'];
         $editlongitude = $_POST['editlongitude'];
 
         if($editbankname){
-            $updatesql = "UPDATE blood_bank SET blood_bank_city_id = '$editcityid',blood_bank_name='$editbankname',blood_bank_address='$editaddress',blood_bank_latitude='$editlatitude',blood_bank_longitude='$editlongitude' WHERE blood_bank_id  ='$bank_id'";
+            $updatesql = "UPDATE blood_bank SET blood_bank_city_id = '$editcityid',blood_bank_name='$editbankname',blood_bank_phone = '$editbankphone',blood_bank_address='$editaddress',blood_bank_latitude='$editlatitude',blood_bank_longitude='$editlongitude' WHERE blood_bank_id  ='$bank_id'";
             if($conn->query($updatesql)===TRUE){
                 header('Location: bloodbank.php?msg=blood bank updated!');
             }
@@ -150,6 +152,10 @@
 																	<input type="text" class="form-control" name="bloodbank" id="bloodbank" placeholder="Enter Blood bank" required>
                                                                 </div>
                                                                 <div class="col-sm-6">
+                                                                    <label>Blood Bank Phone No</label>
+																	<input type="number" class="form-control" name="bloodbankphone" id="bloodbankphone" placeholder="Enter Blood bank Phone No" required>
+                                                                </div>
+                                                                <div class="col-sm-6">
                                                                     <label>Blood Bank Address</label>
 																	<input type="text" class="form-control" name="address" id="address" placeholder="Enter Blood bank Address" required>
                                                                 </div>
@@ -180,10 +186,11 @@
                                         <thead>
                                             <tr>
                                                 <th class="text-center">#</th>
-                                                <th class="text-center">country Name</th>
-                                                <th class="text-center">state Name</th>
-                                                <th class="text-center">District Name</th>
                                                 <th class="text-center">city Name</th>
+                                                <th class="text-center"> Name</th>
+                                                <th class="text-center">phone</th>
+                                                <th class="text-center">address</th>
+                                                <th class="text-center">map view</th>
                                                 <th class="text-center">Action</th>
                                             </tr>
                                         </thead>
@@ -203,6 +210,7 @@
                                                     <td class="text-center"><?php echo ++$count ?></td>
                                                     <td class="text-center"><b><?php echo $row['city_name'] ?></b></td>
                                                     <td class="text-center"><b><?php echo $row['blood_bank_name'] ?></b></td>
+                                                    <td class="text-center"><b><?php echo $row['blood_bank_phone'] ?></b></td>
                                                     <td class="text-center"><b><?php echo $row['blood_bank_address'] ?></b></td>
                                                     <td class="text-center"><iframe src="https://maps.google.com/maps?q=<?php echo $lat?>,<?php echo $long?>&z=15&output=embed" width="200" height="200" frameborder="0" style="border:0"></iframe></td>
                                                     <td class="text-center">
@@ -240,6 +248,10 @@
                                                                                         <div class="col-sm-6">
                                                                                             <label>Blood bank name</label>
                                                                                             <input type="text" name="editbankname" id="editbankname<?php echo $count ?>" class="form-control" placeholder="Blood bank name" value="<?php echo $row['blood_bank_name'] ?>">
+                                                                                        </div>
+                                                                                        <div class="col-sm-6">
+                                                                                            <label>Blood bank phone</label>
+                                                                                            <input type="number" name="editbankphone" id="editbankphone<?php echo $count ?>" class="form-control" placeholder="Blood bank phone" value="<?php echo $row['blood_bank_phone'] ?>">
                                                                                         </div>
                                                                                         <div class="col-sm-6">
                                                                                             <label>Blood Bank Address</label>

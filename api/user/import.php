@@ -38,6 +38,6 @@
 		exit();
 	}
 
-	$IMAGE_BASE_URL = "https://instantambulance.in/dashboard/";
+	$IMAGE_BASE_URL = "https://salvo.gtechlab.in/dashboard/";
 	// $IMAGE_BASE_URL = "http://localhost/ambulance/dashboard/";
 ?>

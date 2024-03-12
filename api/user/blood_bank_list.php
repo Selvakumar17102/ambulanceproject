@@ -1,19 +1,31 @@
 <?php
 	include("import.php");
 
-	if(!empty($data->city_id)){
-		$city_id = $data->city_id;
+	if(!empty($data->latitude) && !empty($data->longtitude)){
+		// $city_id = $data->city_id;
+		$lat = $data->latitude;
+		$long = $data->longtitude;
 
-		$sql = "SELECT * FROM blood_bank WHERE blood_bank_city_id='$city_id'";
+		$sql = "SELECT * FROM blood_bank";
 		$result = $conn->query($sql);
 		if($result->num_rows > 0){
             $i = 0; 
             while($row = $result->fetch_assoc()){
-                $output_array["GTS"][$i]['blood_bank_id'] = (int)$row['blood_bank_id'];
-                $output_array["GTS"][$i]['blood_bank_name'] = $row['blood_bank_name'];
-                $output_array["GTS"][$i]['blood_bank_address'] = $row['blood_bank_address'];
-                $output_array["GTS"][$i]['blood_bank_latitude'] = $row['blood_bank_latitude'];
-                $output_array["GTS"][$i]['blood_bank_longitude'] = $row['blood_bank_longitude'];
+
+				$reqlat = $row['blood_bank_latitude'];
+                $reqlong = $row['blood_bank_longitude'];
+				$km = round(getDistance($lat,$long,$reqlat,$reqlong));
+                    if($km < 100){
+
+						$output_array["GTS"][$i]['blood_bank_id'] = (int)$row['blood_bank_id'];
+						$output_array["GTS"][$i]['blood_bank_name'] = $row['blood_bank_name'];
+						$output_array["GTS"][$i]['blood_bank_address'] = $row['blood_bank_address'];
+						$output_array["GTS"][$i]['blood_bank_phone'] = $row['blood_bank_phone'];
+						// $output_array["GTS"][$i]['blood_bank_latitude'] = $row['blood_bank_latitude'];
+						// $output_array["GTS"][$i]['blood_bank_longitude'] = $row['blood_bank_longitude'];
+
+					}
+
                 $i++;
             }
 		} else{

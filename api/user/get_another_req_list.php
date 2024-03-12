@@ -27,7 +27,7 @@
 
                     $bloodgrp = $donorrow['blood_group'];
 
-                    $reqSql ="SELECT * FROM blood_request a LEFT OUTER JOIN bloodlist b ON a.blood_group = b.blood_id WHERE a.blood_group = '$bloodgrp'";
+                    $reqSql ="SELECT * FROM blood_request a LEFT OUTER JOIN bloodlist b ON a.blood_group = b.blood_id WHERE a.blood_group != '$bloodgrp'";
                     $reqResult = $conn->query($reqSql);
                     $i = 0;
                     if($reqResult->num_rows > 0){
