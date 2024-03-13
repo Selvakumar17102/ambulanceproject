@@ -16,6 +16,10 @@
                 if(move_uploaded_file($_FILES["image"]["tmp_name"], $path)){
                     $sql2 = "INSERT INTO banner (banner_image) VALUES ('$path')";
                     $conn->query($sql2);
+                     $aid = $conn->insert_id;
+
+                    $sql3 = "INSERT INTO commonbanner (aid,type,bannerimg) VALUES ('$aid','1','$path')";
+                    $conn->query($sql3);
                     header('Location: banners.php?msg=banner added!');
                 } 
             }
@@ -43,6 +47,9 @@
                 if(move_uploaded_file($_FILES["image"]["tmp_name"], $path)){
                     $sql2 = "UPDATE banner SET banner_image = '$path' WHERE banner_id='$banner_id'";
                     $conn->query($sql2);
+
+                    $sql3 = "UPDATE commonbanner SET bannerimg = '$path' WHERE aid='$banner_id'";
+                    $conn->query($sql3);
                     unlink($banner_imageS);
                     header('Location: banners.php?msg=banner added!');
                 } 
@@ -62,6 +69,8 @@
 
         $sql = "DELETE FROM banner WHERE banner_id='$banner_id'";
         if($conn->query($sql) === TRUE){
+            $sql1 = "DELETE FROM commonbanner WHERE aid='$banner_id'";
+            $conn->query($sql1);
             unlink($banner_imageS);
             header('Location: banners.php?msg=Banner deleted!');
         }
