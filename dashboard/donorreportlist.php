@@ -35,7 +35,7 @@
     if($_REQUEST['bg'] != ''){
         $bgvalue = $_REQUEST['bg'];
 
-        $bloodgroup = "AND a.blood_group LIKE '%$bgvalue%'";
+        $bloodgroup = "AND a.blood_group ='$bgvalue'";
     }
 
     
@@ -119,7 +119,7 @@
                                             $result = $conn->query($sql);
                                             while($row = $result->fetch_assoc()){
                                                 ?>
-                                                <option value="<?php echo $row['blood_name'] ?>"><?php echo $row['blood_name']?></option>
+                                                <option value="<?php echo $row['blood_id'] ?>" <?php if($row['blood_id'] == $bgvalue){ echo "selected"; }?>><?php echo $row['blood_name']?></option>
                                                 <?php
                                             }
                                             ?>
@@ -173,7 +173,11 @@
                                         </thead>
                                         <tbody>
                                             <?php
-                                                $sql = "SELECT *,a.blood_group as donorbloodgroup FROM blood_donation a LEFT OUTER JOIN user b ON a.user_id=b.user_id LEFT OUTER JOIN city c ON a.donor_city_id=c.city_id WHERE a.create_date BETWEEN '$start' AND '$end' $city $bloodgroup";
+                                                $sql = "SELECT * FROM blood_donation a 
+                                                LEFT OUTER JOIN user b ON a.user_id=b.user_id 
+                                                LEFT OUTER JOIN city c ON a.donor_city_id=c.city_id
+                                                LEFT OUTER JOIN bloodlist d ON a.blood_group=d.blood_id
+                                                WHERE a.create_date BETWEEN '$start' AND '$end' $city $bloodgroup";
                                                 $result = $conn->query($sql);
                                                 $count = 1;
                                                 while($row = $result->fetch_assoc()){
@@ -192,7 +196,7 @@
                                                     <tr>
                                                         <td class="text-center"><?php echo $count++ ?></td>
                                                         <td class="text-center"><a style="color: #790c46;font-weight: 600" href="#"><?php echo $row['blood_donor_name'] ?></a></td>
-                                                        <td class="text-center"><?php echo $row['donorbloodgroup'] ?></td>
+                                                        <td class="text-center"><?php echo $row['blood_name'] ?></td>
                                                         <td class="text-center"><?php echo $row['city_name'] ?></td>
                                                         <td class="text-center"><?php echo $totalOrder; ?></td>
                                                     </tr>

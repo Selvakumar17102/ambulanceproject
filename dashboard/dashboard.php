@@ -77,7 +77,7 @@
         </div>
         <!--  BEGIN CONTENT AREA  -->
        
-            <?php include('include/footer.php') ?>
+          
         <!--  END CONTENT AREA  -->
     </div>
     <!-- END MAIN CONTAINER -->

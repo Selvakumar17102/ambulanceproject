@@ -3,7 +3,7 @@
         <div class="profile-info">
             <figure class="user-cover-image"></figure>
             <div class="user-info img-head">
-                <img style="background-color: #e7c8c8" src="assets/img/index_logo.png" alt="avatar">
+                <img style="background-color: #e7c8c8" src="assets/img/ambulance.png" alt="avatar">
                 <h6 class="" style="color: red;"><?php echo $name ?></h6>
             </div>
         </div>

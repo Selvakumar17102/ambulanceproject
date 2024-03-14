@@ -27,15 +27,15 @@
     }
 
     if($_REQUEST['city'] != ''){
-        $cityvalue = $_REQUEST['city'];
+        $evalue = $_REQUEST['city'];
 
-        $city = "AND a.request_city_id='$cityvalue'";
+        $emergency = "AND a.emergency_status='$evalue'";
     }
 
     if($_REQUEST['bg'] != ''){
         $bgvalue = $_REQUEST['bg'];
 
-        $bloodgroup = "AND a.blood_group LIKE '%$bgvalue%'";
+        $bloodgroup = "AND a.blood_group='$bgvalue'";
     }
 
     
@@ -126,18 +126,11 @@
                                         </select>
                                     </div>
                                     <div class="col-sm-6 mt-2">
-                                        <label for="ld">City</label>
+                                        <label for="ld">Emergency status</label>
                                         <select name="city" id="cityvalue" class="form-control">
-                                            <option value=''>--Select City--</option>
-                                            <?php
-                                            $sql = "SELECT * FROM city";
-                                            $result = $conn->query($sql);
-                                            while($row = $result->fetch_assoc()){
-                                                ?>
-                                                <option value="<?php echo $row['city_id'] ?>" <?php if($row['city_id'] == $cityvalue){ echo "selected"; }?>><?php echo $row['city_name']?></option>
-                                                <?php
-                                            }
-                                            ?>
+                                            <option value=''>--Emergency status--</option>
+                                            <option value="1" <?php if("1" == $evalue){ echo "selected"; }?>>Emergency</option>
+                                            <option value="0" <?php if("0" == $evalue){ echo "selected"; }?>>Non Emergency</option>
                                         </select>
                                     </div>
                                 </div>
@@ -167,14 +160,17 @@
                                                 <th class="text-center">S.No</th>
                                                 <th class="text-center">Patient Name</th>
                                                 <th class="text-center">Blood Group</th>
-                                                <th class="text-center">City</th>
+                                                <th class="text-center">Emergency Status</th>
                                                 <th class="text-center">Unit</th>
                                                 <th class="text-center">Total request</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php
-                                                $sql = "SELECT *,a.blood_group as donorbloodgroup FROM blood_request a LEFT OUTER JOIN user b ON a.user_id=b.user_id LEFT OUTER JOIN city c ON a.request_city_id=c.city_id WHERE a.request_date BETWEEN '$start' AND '$end' $city $bloodgroup";
+                                                $sql = "SELECT * FROM blood_request a 
+                                                LEFT OUTER JOIN user b ON a.user_id=b.user_id
+                                                LEFT OUTER JOIN bloodlist c ON a.blood_group=c.blood_id 
+                                                WHERE a.request_date BETWEEN '$start' AND '$end' $emergency $bloodgroup";
                                                 $result = $conn->query($sql);
                                                 $count = 1;
                                                 while($row = $result->fetch_assoc()){
@@ -193,8 +189,16 @@
                                                     <tr>
                                                         <td class="text-center"><?php echo $count++ ?></td>
                                                         <td class="text-center"><a style="color: #790c46;font-weight: 600" href="#"><?php echo $row['patient_name'] ?></a></td>
-                                                        <td class="text-center"><?php echo $row['donorbloodgroup'] ?></td>
-                                                        <td class="text-center"><?php echo $row['city_name'] ?></td>
+                                                        <td class="text-center"><?php echo $row['blood_name'] ?></td>
+                                                        <td class="text-center">
+                                                            <?php 
+                                                            if($row['emergency_status']  == 1){
+                                                                echo '<span class="badge outline-badge-danger">Emergency</span>';
+                                                            }else{
+                                                                echo '<span class="badge outline-badge-primary">Non-Emergency</span>';
+                                                            }
+                                                            ?>
+                                                        </td>
                                                         <td class="text-center"><?php echo $row['unit'] ?></td>
                                                         <td class="text-center"><?php echo $totalOrder; ?></td>
                                                     </tr>
